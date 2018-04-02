@@ -1,3 +1,30 @@
 body {
     margin: 0px;
+    font-family: Roboto, sans-serif;
 }
+
+.btnNewTopic {
+    margin-left: 1200px;
+    margin-top: 20px;
+}
+
+.rowElement {
+    margin-bottom: 23px;
+}
+
+h1 {
+    color: #424242
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    margin-left: 280px;
+}
+
+.column-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
