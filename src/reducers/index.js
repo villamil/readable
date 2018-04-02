@@ -21,12 +21,6 @@ import {
     FETCH_CATEGORIES
 } from '../actions/categories';
 
-const initialPostsState = [];
-
-const initialCommentState = [];
-
-const initialCategoryState = [];
-
 const initialSortingState = {
     actualOrder: {
         voteScore: 'asc',
@@ -48,7 +42,7 @@ function sorting(state = initialSortingState, actions) {
     }
 }
 
-function posts(state = initialPostsState, actions) {
+function posts(state = [], actions) {
     switch (actions.type) {
         case UPDATE_POST:
             return state.map((post) => {
@@ -71,7 +65,7 @@ function posts(state = initialPostsState, actions) {
     }
 }
 
-function comments(state = initialCommentState, actions) {
+function comments(state = [], actions) {
     switch (actions.type) {
         case CLEAR_COMMENTS:
             return [];
@@ -98,7 +92,7 @@ function comments(state = initialCommentState, actions) {
     }
 }
 
-function categories(state = initialCategoryState, actions) {
+function categories(state = [], actions) {
     switch (actions.type) {
         case FETCH_CATEGORIES: 
             return [

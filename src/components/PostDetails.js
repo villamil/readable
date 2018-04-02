@@ -22,7 +22,7 @@ import CommentForm from './CommentForm';
 import uuid from 'uuid/v4';
 import Dialog from 'material-ui/Dialog';
 import PostForm from './PostForm';
-
+import moment from 'moment';
 
 
 class PostDetails extends Component {
@@ -33,8 +33,7 @@ class PostDetails extends Component {
     }
 
     normalizeDate(timestamp) {
-        const date = new Date(timestamp)
-        return date.getFullYear() + '-' + date.getMonth() + '-' + date.getDay()
+        return moment(timestamp).format('MMMM Do YY')
     }
 
     async componentDidMount() {
