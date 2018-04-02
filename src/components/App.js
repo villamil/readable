@@ -5,7 +5,9 @@ import PostsList from './PostsList';
 import PostDetails from './PostDetails';
 import { Route, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { votePost, voteComment, clearPost } from '../actions';
+import { votePost, clearPost } from '../actions/posts';
+import { voteComment } from '../actions/comments';
+
 
 
 class App extends Component {

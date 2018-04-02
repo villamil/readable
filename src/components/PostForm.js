@@ -4,7 +4,9 @@ import TextField from 'material-ui/TextField';
 import MenuItem from 'material-ui/MenuItem';
 import RaisedButton from 'material-ui/RaisedButton';
 import { connect } from 'react-redux';
-import { newPost, modifyPost, fetchCategories } from '../actions';
+import { newPost, modifyPost } from '../actions/posts';
+import { fetchCategories } from '../actions/categories';
+
 import uuid from 'uuid/v4';
 
 class PostForm extends Component {

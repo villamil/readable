@@ -22,7 +22,19 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import _ from 'lodash';
-import { fetchPosts, changeSort, fetchPostsByCategory, updatePost, clearPost, deletePost, fetchCategories } from '../actions';
+import {
+    fetchPosts,
+    fetchPostsByCategory,
+    updatePost,
+    clearPost,
+    deletePost,
+} from '../actions/posts';
+import {
+    fetchCategories
+} from '../actions/categories';
+import {
+    changeSort
+} from '../actions/sorting';
 import Dialog from 'material-ui/Dialog';
 import PostForm from './PostForm';
 
@@ -60,7 +72,7 @@ class PostsList extends Component {
     }
 
     openPostModal = (isNewPost) => {
-        if(isNewPost) {
+        if (isNewPost) {
             this.props.clearPost();
         }
         this.setState({ postModal: true });
@@ -72,7 +84,7 @@ class PostsList extends Component {
     }
 
     handleCategoryChangeNewPost = (event, index, value) => {
-        this.setState({selectValueNewPost: value});
+        this.setState({ selectValueNewPost: value });
     }
 
     onEdit(post) {
@@ -152,12 +164,12 @@ class PostsList extends Component {
                                             </TableRowColumn>
                                             <TableRowColumn>
                                                 <IconButton style={{ marginBottom: 23 }}>
-                                                    <ModeEdit color='#039BE5' onClick={() => this.onEdit(post)}/>
+                                                    <ModeEdit color='#039BE5' onClick={() => this.onEdit(post)} />
                                                 </IconButton>
                                             </TableRowColumn>
                                             <TableRowColumn>
                                                 <IconButton style={{ marginBottom: 23 }}>
-                                                    <Delete color='#E53935' onClick={() => this.onDelete(post)}/>
+                                                    <Delete color='#E53935' onClick={() => this.onDelete(post)} />
                                                 </IconButton>
                                             </TableRowColumn>
                                         </TableRow>
@@ -177,7 +189,7 @@ class PostsList extends Component {
                     onRequestClose={this.closePostModal}
                 >
                     <div>
-                        <PostForm closeModal={this.closePostModal}/>
+                        <PostForm closeModal={this.closePostModal} />
                     </div>
                 </Dialog>
             </div>

@@ -1,19 +1,25 @@
 import { combineReducers } from 'redux';
 import {
-    UPDATE_SORTING,
     FETCH_POSTS,
     FETCH_POST,
     UPDATE_POST,
+    CLEAR_POST,
+    CREATE_POST,
+    DELETE_POST,
+} from '../actions/posts';
+import {
     UPDATE_COMMENT,
     FETCH_COMMENTS,
     CLEAR_COMMENTS,
-    CLEAR_POST,
     CREATE_COMMENT,
     DELETE_COMMENT,
-    CREATE_POST,
-    DELETE_POST,
+} from '../actions/comments';
+import {
+    UPDATE_SORTING,
+} from '../actions/sorting';
+import {
     FETCH_CATEGORIES
-} from '../actions';
+} from '../actions/categories';
 
 const initialPostsState = [];
 
