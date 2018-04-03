@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
-import NearMe from 'material-ui/svg-icons/maps/near-me';
-
 
 class CommentForm extends Component {
     state = {
         author: '',
         authorError: '',
         body: '',
-        bodyError: ''
+        bodyError: '',
+        isEditing: false
     }
 
     onChange(e) {
@@ -50,18 +49,31 @@ class CommentForm extends Component {
         }
     }
 
+    componentDidMount() {
+        if(this.props.comment) {
+            this.setState({
+                author: this.props.comment.author,
+                body: this.props.comment.body,
+                isEditing: true
+            })
+        }
+    }
+
     render() {
         return (
             <div className="container">
                 <div style={{ marginLeft: 20 }}>
-                    <TextField name="author" value={this.state.author} hintText="Name" onChange={(e) => this.onChange(e)} errorText={this.state.authorError} />
+                    <TextField name="author" value={this.state.author} hintText="Name" onChange={(e) => this.onChange(e)} errorText={this.state.authorError} disabled={this.state.isEditing} />
                 </div>
                 <div style={{ marginLeft: 20, width: 600 }}>
                     <TextField name="body" value={this.state.body} hintText="Comment ... " fullWidth={true} onChange={(e) => this.onChange(e)} errorText={this.state.bodyError} />
                 </div>
                 <div style={{ marginLeft: 10 }}>
-                    <RaisedButton label="Send" primary={true} icon={<NearMe />} onClick={(e) => this.onSubmit(e)} />
+                    <RaisedButton label={this.state.isEditing ? "Edit" : "Send"} primary={!this.state.isEditing}  onClick={(e) => this.onSubmit(e)} />
                 </div>
+                {this.state.isEditing ? <div style={{ marginLeft: 10 }}>
+                    <RaisedButton label="Cancel" secondary={true}  onClick={() => this.props.cancelEditComment()} />
+                </div> : null}
             </div>
         );
     }

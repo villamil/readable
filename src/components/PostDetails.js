@@ -15,6 +15,7 @@ import {
     clearComments,
     postComment,
     deleteComment,
+    changeComment
 } from '../actions/comments';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -23,13 +24,17 @@ import uuid from 'uuid/v4';
 import Dialog from 'material-ui/Dialog';
 import PostForm from './PostForm';
 import moment from 'moment';
+import IconMenu from 'material-ui/IconMenu';
+import MenuItem from 'material-ui/MenuItem';
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 
 
 class PostDetails extends Component {
 
     state = {
         postModal: false,
-        isValidPost: true
+        isValidPost: true,
+        editingCommentId: 0,
     }
 
     normalizeDate(timestamp) {
@@ -43,7 +48,6 @@ class PostDetails extends Component {
                 isValidPost: false
             });
         }
-        console.log(this.props.post);
         this.props.receiveComments(this.props.match.params.id);
     }
 
@@ -53,18 +57,24 @@ class PostDetails extends Component {
     }
 
     onSubmit({ body, author }) {
-        this.props.postComment({
-            id: uuid(),
-            timestamp: Date.now(),
-            body,
-            author,
-            parentId: this.props.post.id
-        });
-    }
-
-    onDelete() {
-        this.props.deletePost(this.props.post.id);
-        this.props.history.push('/');
+        console.log(this.state.editingCommentId);
+        if(this.state.editingCommentId === 0) {
+            this.props.postComment({
+                id: uuid(),
+                timestamp: Date.now(),
+                body,
+                author,
+                parentId: this.props.post.id
+            });
+        } else {
+            this.props.changeComment(this.state.editingCommentId, {
+                timestamp: Date.now(),
+                body,
+            });
+            this.setState({
+                editingCommentId: 0
+            })
+        }
     }
 
     openPostModal = () => {
@@ -86,6 +96,18 @@ class PostDetails extends Component {
             onClick={this.closePostModal}
         />
     ]
+
+    onEditComment(commentId) {
+        this.setState({
+            editingCommentId: commentId
+        });
+    }
+
+    cancelEditComment() {
+        this.setState({
+            editingCommentId: 0
+        })
+    }
 
     render() {
         return (
@@ -128,22 +150,36 @@ class PostDetails extends Component {
                         <CommentForm onSubmit={this.onSubmit.bind(this)} />
 
                         {this.props.comments.length > 0 ? this.props.comments.map((comment) => (
-                            <div className="container" key={comment.id}>
-                                <div>
-                                    <Votes content={comment} vote={this.props.vote}></Votes>
-                                </div>
-                                <div>
-                                    <div>
-                                        <p style={{ color: "#1FBCD3", margin: 0 }}>{comment.author}</p>
-                                        {comment.body}
-                                    </div>
+                            <div key={comment.id}>
 
-                                </div>
-                                <div style={{ marginLeft: 12, marginTop: 18 }}>
-                                    <IconButton onClick={() => this.props.deleteComment(comment.id)}>
-                                        <Delete color='#E53935' />
-                                    </IconButton>
-                                </div>
+                                {this.state.editingCommentId === comment.id ?
+                                    <div>
+                                        <CommentForm comment={comment} cancelEditComment={() => this.cancelEditComment()} onSubmit={this.onSubmit.bind(this)}  />
+                                    </div>
+                                    :
+                                    <div className="container" >
+                                        <div>
+                                            <Votes content={comment} vote={this.props.vote}></Votes>
+                                        </div>
+                                        <div>
+                                            <div>
+                                                <p style={{ color: "#1FBCD3", margin: 0 }}>{comment.author}</p>
+                                                {comment.body}
+                                            </div>
+                                        </div>
+                                        <div style={{ marginLeft: 12, marginTop: 18 }}>
+                                            <IconMenu
+                                                iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
+                                                anchorOrigin={{ horizontal: 'left', vertical: 'top' }}
+                                                targetOrigin={{ horizontal: 'left', vertical: 'top' }}
+                                            >
+                                                <MenuItem primaryText="Edit" onClick={() => this.onEditComment(comment.id)} />
+                                                <MenuItem primaryText="Delete" onClick={() => this.props.deleteComment(comment.id)} />
+                                            </IconMenu>
+                                        </div>
+
+                                    </div>
+                                }
 
                             </div>
                         )) :
@@ -189,7 +225,8 @@ function mapDispatchToProps(dispatch) {
         postComment: (body) => dispatch(postComment(body)),
         deleteComment: (commentId) => dispatch(deleteComment(commentId)),
         deletePost: (postId) => dispatch(deletePost(postId)),
-        updatePost: (postId, body) => dispatch(updatePost(postId, body))
+        updatePost: (postId, body) => dispatch(updatePost(postId, body)),
+        changeComment: (commentId, body) => dispatch(changeComment(commentId, body))
     }
 }
 

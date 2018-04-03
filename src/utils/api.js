@@ -110,3 +110,12 @@ export function deleteComment(commentId) {
     })
     .then((res) => res.json()); 
 }
+
+export function updateComment(commentId, body) {
+    return fetch(`http://localhost:3001/comments/${commentId}`, {
+        method: 'put',
+        headers,
+        body: JSON.stringify(body),
+    })
+    .then((res) => res.json()); 
+}

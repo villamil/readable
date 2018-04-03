@@ -27,6 +27,11 @@ export const voteComment = (commentId, vote) => dispatch => (
         .then((comment) => dispatch(updateComment(comment)))
 );
 
+export const changeComment = (commentId, body) => dispatch => (
+    APIUtils
+        .updateComment(commentId, body)
+        .then((comment) => dispatch(updateComment(comment)))
+);
 
 export const receiveComments = (comments) => ({
     type: FETCH_COMMENTS,
