@@ -1,6 +1,5 @@
 import * as APIUtils from '../utils/api';
-
-export const FETCH_CATEGORIES = 'FETCH_CATEGORIES';
+import { FETCH_CATEGORIES } from './actionsTypes';
 
 export const receiveCategories = (categories) => ({
     type: FETCH_CATEGORIES,

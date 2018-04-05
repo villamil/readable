@@ -11,6 +11,16 @@ class CommentForm extends Component {
         isEditing: false
     }
 
+    componentDidMount() {
+        if (this.props.comment)  {
+            this.setState({
+                author: this.props.comment.author,
+                body: this.props.comment.body,
+                isEditing: true
+            })
+        }
+    }
+
     onChange(e) {
         this.setState({
             [e.target.name]: e.target.value
@@ -49,16 +59,6 @@ class CommentForm extends Component {
         }
     }
 
-    componentDidMount() {
-        if(this.props.comment) {
-            this.setState({
-                author: this.props.comment.author,
-                body: this.props.comment.body,
-                isEditing: true
-            })
-        }
-    }
-
     render() {
         return (
             <div className="container">
@@ -69,10 +69,10 @@ class CommentForm extends Component {
                     <TextField name="body" value={this.state.body} hintText="Comment ... " fullWidth={true} onChange={(e) => this.onChange(e)} errorText={this.state.bodyError} />
                 </div>
                 <div style={{ marginLeft: 10 }}>
-                    <RaisedButton label={this.state.isEditing ? "Edit" : "Send"} primary={!this.state.isEditing}  onClick={(e) => this.onSubmit(e)} />
+                    <RaisedButton label={this.state.isEditing ? "Edit" : "Send"} primary={!this.state.isEditing} onClick={(e) => this.onSubmit(e)} />
                 </div>
                 {this.state.isEditing ? <div style={{ marginLeft: 10 }}>
-                    <RaisedButton label="Cancel" secondary={true}  onClick={() => this.props.cancelEditComment()} />
+                    <RaisedButton label="Cancel" secondary={true} onClick={() => this.props.cancelEditComment()} />
                 </div> : null}
             </div>
         );

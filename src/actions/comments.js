@@ -1,12 +1,11 @@
 import * as APIUtils from '../utils/api';
-
-export const FETCH_COMMENTS = 'FETCH_COMMENTS';
-export const UPDATE_COMMENT = 'UPDATE_COMMENT';
-export const CLEAR_COMMENTS = 'CLEAR_COMMENTS';
-export const CREATE_COMMENT = 'CREATE_COMMENT';
-export const DELETE_COMMENT = 'DELETE_COMMENT';
-
-
+import { 
+    CLEAR_COMMENTS, 
+    UPDATE_COMMENT,
+    FETCH_COMMENTS,
+    CREATE_COMMENT,
+    DELETE_COMMENT,
+} from './actionsTypes';
 
 export function clearComments() {
     return {
@@ -56,7 +55,6 @@ export const postComment = (body) => dispatch => (
         .then(comment => dispatch(createComment(comment)))
 );
 
-
 export const removeComment = (commentId) => ({
     type: DELETE_COMMENT,
     commentId
@@ -65,6 +63,5 @@ export const removeComment = (commentId) => ({
 export const deleteComment = (commentId) => dispatch => (
     APIUtils
         .deleteComment(commentId)
-        .then(console.log)
         .then(() => dispatch(removeComment(commentId)))
 );

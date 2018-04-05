@@ -8,9 +8,12 @@ import { connect } from 'react-redux';
 import { votePost, clearPost } from '../actions/posts';
 import { voteComment } from '../actions/comments';
 
-
-
 class App extends Component {
+
+  constructor() {
+    super();
+    this.vote = this.vote.bind(this);
+  }
 
   isContentAPost(content) {
     return content.hasOwnProperty('title');
@@ -35,7 +38,7 @@ class App extends Component {
             <div>
               <AppBar onTitleClick={() => props.history.push('/')} title="Readable" titleStyle={appBarStyle} showMenuIconButton={false} />
               <PostsList
-                vote={this.vote.bind(this)}
+                vote={this.vote}
                 selectValue={"1"}
                 history={props.history}
               />
@@ -45,7 +48,7 @@ class App extends Component {
             <div>
               <AppBar onTitleClick={() => props.history.push('/')} title="Readable" titleStyle={appBarStyle} showMenuIconButton={false} />
               <PostsList
-                vote={this.vote.bind(this)}
+                vote={this.vote}
                 selectValue={props.match.params.category}
                 history={props.history}
                 match={props.match}
@@ -58,7 +61,7 @@ class App extends Component {
               <PostDetails
                 match={props.match}
                 selectValue={props.match.params.category}
-                vote={this.vote.bind(this)}
+                vote={this.vote}
                 history={props.history}
               />
             </div>

@@ -23,6 +23,17 @@ class PostForm extends Component {
         isEditingPost: false,
     }
 
+
+    componentDidMount() {
+        this.props.fetchCategories();
+        if (this.props.post.id) {
+            this.setState({
+                ...this.props.post,
+                isEditingPost: true
+            })
+        }
+    }
+
     onChange(e) {
         this.setState({
             [e.target.name]: e.target.value
@@ -85,16 +96,6 @@ class PostForm extends Component {
             ...errors
         });
         return isValid;
-    }
-
-    componentDidMount() {
-        this.props.fetchCategories();
-        if (this.props.post.id) {
-            this.setState({
-                ...this.props.post,
-                isEditingPost: true
-            })
-        }
     }
 
     render() {

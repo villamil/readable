@@ -45,6 +45,14 @@ class PostsList extends Component {
 
     };
 
+    componentDidMount() {
+        this.props.fetchCategories();
+        if (this.props.selectValue !== "1") {
+            return this.props.fetchPostsByCategory(this.props.selectValue);
+        }
+        return this.props.receivePosts();
+    };
+
     orderBy(field) {
         this.props.sorting.actualOrder[field] === 'asc' ? this.props.changeSorting({
             fieldToOrder: field,
@@ -62,14 +70,6 @@ class PostsList extends Component {
         }
         return this.props.history.push('/');
     };
-
-    componentDidMount() {
-        this.props.fetchCategories();
-        if (this.props.selectValue !== "1") {
-            return this.props.fetchPostsByCategory(this.props.selectValue);
-        }
-        return this.props.receivePosts();
-    }
 
     openPostModal = (isNewPost) => {
         if (isNewPost) {

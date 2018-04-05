@@ -1,4 +1,4 @@
-export const UPDATE_SORTING = 'UPDATE_SORTING';
+import { UPDATE_SORTING } from './actionsTypes';
 
 export function changeSort({ actualOrder, fieldToOrder }) {
     return {

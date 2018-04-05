@@ -23,22 +23,22 @@ import CommentForm from './CommentForm';
 import uuid from 'uuid/v4';
 import Dialog from 'material-ui/Dialog';
 import PostForm from './PostForm';
-import moment from 'moment';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
-
+import normalizeDate from '../utils/helpers';
 
 class PostDetails extends Component {
+
+    constructor()  {
+        super();
+        this.onSubmit = this.onSubmit.bind(this);
+    }
 
     state = {
         postModal: false,
         isValidPost: true,
         editingCommentId: 0,
-    }
-
-    normalizeDate(timestamp) {
-        return moment(timestamp).format('MMMM Do YY')
     }
 
     async componentDidMount() {
@@ -58,7 +58,7 @@ class PostDetails extends Component {
 
     onSubmit({ body, author }) {
         console.log(this.state.editingCommentId);
-        if(this.state.editingCommentId === 0) {
+        if (this.state.editingCommentId === 0) {
             this.props.postComment({
                 id: uuid(),
                 timestamp: Date.now(),
@@ -130,7 +130,10 @@ class PostDetails extends Component {
                                 <p style={{ color: "#1FBCD3" }}>Author: {this.props.post.author}</p>
                             </div>
                             <div style={{ marginLeft: 12 }}>
-                                <p style={{ color: "#1FBCD3" }}>Date: {this.normalizeDate(this.props.post.timestamp)}</p>
+                                <p style={{ color: "#1FBCD3" }}>Date: {normalizeDate(this.props.post.timestamp)}</p>
+                            </div>
+                            <div style={{ marginLeft: 12 }}>
+                                <p style={{ color: "#1FBCD3" }}>Replies: {this.props.comments.length}</p>
                             </div>
                             <div style={{ marginLeft: 12 }}>
                                 <IconButton>
@@ -147,14 +150,14 @@ class PostDetails extends Component {
                             <p>Comments:</p>
                         </div>
 
-                        <CommentForm onSubmit={this.onSubmit.bind(this)} />
+                        <CommentForm onSubmit={this.onSubmit} />
 
                         {this.props.comments.length > 0 ? this.props.comments.map((comment) => (
                             <div key={comment.id}>
 
                                 {this.state.editingCommentId === comment.id ?
                                     <div>
-                                        <CommentForm comment={comment} cancelEditComment={() => this.cancelEditComment()} onSubmit={this.onSubmit.bind(this)}  />
+                                        <CommentForm comment={comment} cancelEditComment={() => this.cancelEditComment()} onSubmit={this.onSubmit} />
                                     </div>
                                     :
                                     <div className="container" >
